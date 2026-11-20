@@ -1,0 +1,17 @@
+node_modules/
+.next/
+dist/
+out/
+.bin/
+.DS_Store
+*.local
+.env
+.env*.local
+!.env.example
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+.superpowers/
+test-results/
+playwright-report/
