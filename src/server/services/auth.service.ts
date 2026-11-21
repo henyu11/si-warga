@@ -61,8 +61,13 @@ export async function loginUser(
 }
 
 export async function getSessionUser(): Promise<SessionUser | null> {
-  const cookieStore = await cookies()
-  const token = cookieStore.get(SESSION_COOKIE_NAME)?.value
+  let token: string | undefined
+  try {
+    const cookieStore = await cookies()
+    token = cookieStore.get(SESSION_COOKIE_NAME)?.value
+  } catch {
+    token = undefined
+  }
   if (!token) return null
 
   const payload = await verifyJwt(token)
