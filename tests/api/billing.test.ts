@@ -66,7 +66,7 @@ describe('Billing Service (F-004)', () => {
     })
 
     expect(fineItem.itemType).toBe('DENDA_RONDA')
-    expect(fineItem.amountDue).toBe(25000)
+    expect(fineItem.amountDue).toBe(20000)
     expect(fineItem.status).toBe('UNPAID')
 
     // Verify detail reflects the new fine item
@@ -75,10 +75,10 @@ describe('Billing Service (F-004)', () => {
   })
 
   it('overrideBillItem updates amount_due with audit reason', async () => {
-    const list = await listBills({ year: 2026, month: 11 })
+    const list = await listBills({ year: 2026, month: 11, status: 'UNPAID' })
     const targetBill = list[0]
     const detail = await getBillDetail(targetBill.id)
-    const targetItem = detail!.items[0]
+    const targetItem = detail!.items.find((i) => i.status !== 'PAID')!
 
     const updatedItem = await overrideBillItem({
       itemId: targetItem.id,

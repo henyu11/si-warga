@@ -26,7 +26,7 @@ export default function PengaturanPage() {
   }>({
     open: false,
     feeType: 'IURAN_WAJIB',
-    currentAmount: 50000,
+    currentAmount: 5000,
     title: 'Iuran Wajib',
   })
 
@@ -122,7 +122,7 @@ export default function PengaturanPage() {
         <FeeRateCard
           title="Iuran Wajib Warga"
           feeType="IURAN_WAJIB"
-          amount={rates?.IURAN_WAJIB?.amount || 50000}
+          amount={rates?.IURAN_WAJIB?.amount || 5000}
           targetKas="Masuk: Buku Kas Umum"
           targetKasType="kasUmum"
           description="Iuran operasional bulanan: kebersihan, sampah, fasilitas umum, dan kegiatan sosial."
@@ -130,7 +130,7 @@ export default function PengaturanPage() {
           onEdit={() =>
             openEdit(
               'IURAN_WAJIB',
-              rates?.IURAN_WAJIB?.amount || 50000,
+              rates?.IURAN_WAJIB?.amount || 5000,
               'Iuran Wajib Warga'
             )
           }
@@ -140,7 +140,7 @@ export default function PengaturanPage() {
         <FeeRateCard
           title="Iuran Keamanan Warga"
           feeType="IURAN_KEAMANAN"
-          amount={rates?.IURAN_KEAMANAN?.amount || 40000}
+          amount={rates?.IURAN_KEAMANAN?.amount || 20000}
           targetKas="Masuk: Buku Kas Keamanan"
           targetKasType="kasKeamanan"
           description="Iuran pos keamanan: honor gaji satpam, pemeliharaan portal, dan peralatan CCTV."
@@ -148,7 +148,7 @@ export default function PengaturanPage() {
           onEdit={() =>
             openEdit(
               'IURAN_KEAMANAN',
-              rates?.IURAN_KEAMANAN?.amount || 40000,
+              rates?.IURAN_KEAMANAN?.amount || 20000,
               'Iuran Keamanan Warga'
             )
           }
@@ -158,7 +158,7 @@ export default function PengaturanPage() {
         <FeeRateCard
           title="Denda Ronda Absen"
           feeType="DENDA_RONDA"
-          amount={rates?.DENDA_RONDA?.amount || 25000}
+          amount={rates?.DENDA_RONDA?.amount || 20000}
           targetKas="Masuk: Buku Kas Keamanan"
           targetKasType="kasKeamanan"
           description="Denda bagi warga yang berhalangan hadir jadwal ronda malam tanpa pengganti."
@@ -166,7 +166,7 @@ export default function PengaturanPage() {
           onEdit={() =>
             openEdit(
               'DENDA_RONDA',
-              rates?.DENDA_RONDA?.amount || 25000,
+              rates?.DENDA_RONDA?.amount || 20000,
               'Denda Ronda Absen'
             )
           }

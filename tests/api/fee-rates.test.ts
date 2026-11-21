@@ -38,7 +38,7 @@ describe('Settings & Fee Rates Service', () => {
     const oldRates = await db
       .select()
       .from(feeRates)
-      .where(and(eq(feeRates.feeType, 'IURAN_WAJIB'), eq(feeRates.amount, 50000)))
+      .where(and(eq(feeRates.feeType, 'IURAN_WAJIB'), eq(feeRates.amount, 5000)))
       .all()
     expect(oldRates.some((r) => r.isActive === 0)).toBe(true)
   })

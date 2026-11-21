@@ -27,8 +27,8 @@ export async function generateMonthlyBills({
 }: GenerateBillsParams) {
   // 1. Get active rates
   const rates = await getActiveFeeRates()
-  const wajibAmount = rates.IURAN_WAJIB?.amount || 50000
-  const keamananAmount = rates.IURAN_KEAMANAN?.amount || 40000
+  const wajibAmount = rates.IURAN_WAJIB?.amount || 5000
+  const keamananAmount = rates.IURAN_KEAMANAN?.amount || 20000
 
   // 2. Get active households
   const activeHouseholds = await db
@@ -258,7 +258,7 @@ export async function addFineToBill({
   }
 
   const rates = await getActiveFeeRates()
-  const dendaAmount = rates.DENDA_RONDA?.amount || 25000
+  const dendaAmount = rates.DENDA_RONDA?.amount || 20000
 
   const itemId = `bi-${crypto.randomUUID()}`
   const newFineItem = {
