@@ -105,7 +105,7 @@ export function HouseholdTable({ initialHouseholds }: HouseholdTableProps) {
             Data Warga &amp; Rumah
           </h1>
           <p className="text-sm text-muted-foreground">
-            Direktori Kepala Keluarga (KK), nomor WhatsApp, dan status hunian RT 04.
+            Direktori Kepala Keluarga (KK), nomor WhatsApp, dan status hunian Kavling Palanji &amp; Mutiara Indah.
           </p>
         </div>
         {canEdit && (

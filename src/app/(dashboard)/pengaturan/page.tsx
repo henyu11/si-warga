@@ -194,7 +194,7 @@ export default function PengaturanPage() {
                   id="rek-umum"
                   value={rekeningUmum}
                   onChange={(e) => setRekeningUmum(e.target.value)}
-                  placeholder="Contoh: BCA 1234567890 a.n. Kas RT 04"
+                  placeholder="Contoh: BCA 1234567890 a.n. Kas Palmut"
                   disabled={!canEdit}
                 />
               </div>
@@ -205,7 +205,7 @@ export default function PengaturanPage() {
                   id="rek-keamanan"
                   value={rekeningKeamanan}
                   onChange={(e) => setRekeningKeamanan(e.target.value)}
-                  placeholder="Contoh: Mandiri 0987654321 a.n. Kas Keamanan RT 04"
+                  placeholder="Contoh: Mandiri 0987654321 a.n. Kas Keamanan Palmut"
                   disabled={!canEdit}
                 />
               </div>

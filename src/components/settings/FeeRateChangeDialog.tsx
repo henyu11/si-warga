@@ -153,7 +153,7 @@ export function FeeRateChangeDialog({
             </Label>
             <Textarea
               id="chg-reason"
-              placeholder="Contoh: Hasil keputusan musyawarah warga RT 04 tanggal 15 November..."
+              placeholder="Contoh: Hasil keputusan musyawarah warga tanggal 15 November..."
               value={changeReason}
               onChange={(e) => setChangeReason(e.target.value)}
               required

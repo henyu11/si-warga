@@ -104,7 +104,7 @@ export function BillsListView({ initialBills }: BillsListViewProps) {
             Tagihan Iuran Warga
           </h1>
           <p className="text-sm text-muted-foreground">
-            Rekap kewajiban iuran bulanan warga RT 04 (Iuran Wajib, Keamanan, Denda Ronda).
+            Rekap kewajiban iuran bulanan warga Kavling Palanji &amp; Mutiara Indah (Iuran Wajib, Keamanan, Denda Ronda).
           </p>
         </div>
 
