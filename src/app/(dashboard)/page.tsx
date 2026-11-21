@@ -28,7 +28,7 @@ export default async function DashboardPage() {
   const periodLabel = `${MONTH_NAMES[currentMonth - 1]} ${currentYear}`
 
   return (
-    <div className="max-w-7xl mx-auto space-y-6 py-2">
+    <div className="p-4 md:p-8 max-w-7xl mx-auto w-full space-y-6">
       {/* Top Banner / Welcome Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>

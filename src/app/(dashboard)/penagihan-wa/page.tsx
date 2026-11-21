@@ -8,7 +8,7 @@ export const metadata = {
 
 export default function PenagihanWaPage() {
   return (
-    <div className="max-w-6xl mx-auto py-2">
+    <div className="p-4 md:p-8 max-w-6xl mx-auto w-full">
       <ArrearsListView />
     </div>
   )

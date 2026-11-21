@@ -8,7 +8,7 @@ export const metadata = {
 
 export default function AuditLogPage() {
   return (
-    <div className="max-w-7xl mx-auto py-2">
+    <div className="p-4 md:p-8 max-w-7xl mx-auto w-full">
       <AuditLogTable />
     </div>
   )
