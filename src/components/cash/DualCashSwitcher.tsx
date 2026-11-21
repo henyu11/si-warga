@@ -142,103 +142,110 @@ export function DualCashSwitcher() {
   })
 
   return (
-    <div className="space-y-5">
+    <div className="w-full max-w-full space-y-4 sm:space-y-5">
       {/* Top Header & Actions */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>
-          <h1 className="text-2xl font-bold text-slate-900 tracking-tight flex items-center gap-2">
-            Buku Kas RT/RW
-            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-teal-100 text-teal-800">
+          <div className="flex items-center gap-2">
+            <h1 className="text-xl sm:text-2xl font-bold text-slate-900 tracking-tight">
+              Buku Kas RT/RW
+            </h1>
+            <span className="inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-semibold bg-teal-100 text-teal-800">
               F-007
             </span>
-          </h1>
-          <p className="text-xs sm:text-sm text-slate-500">
+          </div>
+          <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
             Pencatatan dual-ledger terpisah antara Kas Umum & Kas Keamanan Komplek Melati
           </p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full sm:w-auto">
           {/* Period Dropdowns */}
-          <div className="flex items-center gap-1.5 bg-white border border-slate-200 rounded-lg px-2 py-1 shadow-sm text-xs">
-            <Calendar className="w-3.5 h-3.5 text-teal-700" />
-            <select
-              value={month}
-              onChange={(e) => setMonth(Number(e.target.value))}
-              className="bg-transparent font-medium text-slate-700 focus:outline-none"
-            >
-              {MONTHS.map((m, idx) => (
-                <option key={m} value={idx + 1}>
-                  {m}
-                </option>
-              ))}
-            </select>
-            <select
-              value={year}
-              onChange={(e) => setYear(Number(e.target.value))}
-              className="bg-transparent font-medium text-slate-700 focus:outline-none"
-            >
-              {[2025, 2026, 2027].map((y) => (
-                <option key={y} value={y}>
-                  {y}
-                </option>
-              ))}
-            </select>
+          <div className="flex items-center justify-between sm:justify-start gap-1.5 bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 shadow-xs text-xs">
+            <div className="flex items-center gap-1.5 text-teal-700">
+              <Calendar className="w-3.5 h-3.5 shrink-0" />
+              <span className="text-[11px] font-medium text-slate-500 sm:hidden">Periode:</span>
+            </div>
+            <div className="flex items-center gap-1">
+              <select
+                value={month}
+                onChange={(e) => setMonth(Number(e.target.value))}
+                className="bg-transparent font-medium text-slate-700 focus:outline-none cursor-pointer"
+              >
+                {MONTHS.map((m, idx) => (
+                  <option key={m} value={idx + 1}>
+                    {m}
+                  </option>
+                ))}
+              </select>
+              <select
+                value={year}
+                onChange={(e) => setYear(Number(e.target.value))}
+                className="bg-transparent font-medium text-slate-700 focus:outline-none cursor-pointer"
+              >
+                {[2025, 2026, 2027].map((y) => (
+                  <option key={y} value={y}>
+                    {y}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
 
           <Button
             onClick={() => setIsTxModalOpen(true)}
-            className="h-9 px-4 text-xs font-semibold bg-teal-700 hover:bg-teal-800 text-white shadow-sm flex items-center gap-1.5"
+            className="h-9 px-3.5 text-xs font-semibold bg-teal-700 hover:bg-teal-800 text-white shadow-xs flex items-center justify-center gap-1.5 w-full sm:w-auto"
           >
-            <Plus className="w-4 h-4" />
+            <Plus className="w-4 h-4 shrink-0" />
             <span>Catat Transaksi Kas</span>
           </Button>
         </div>
       </div>
 
       {/* Dual Ledger Cards Switcher */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
         {/* Tab 1: Kas Umum */}
         <div
           role="button"
           tabIndex={0}
           onClick={() => setActiveBookType('KAS_UMUM')}
-          className={`p-5 rounded-xl border transition-all cursor-pointer relative shadow-sm ${
+          className={`p-3.5 sm:p-5 rounded-xl border transition-all cursor-pointer relative shadow-xs ${
             activeBookType === 'KAS_UMUM'
-              ? 'border-2 border-emerald-600 bg-emerald-50/50 shadow-md ring-1 ring-emerald-600'
+              ? 'border-2 border-emerald-600 bg-emerald-50/50 shadow-sm ring-1 ring-emerald-600'
               : 'border-slate-200 bg-white hover:border-emerald-300'
           }`}
         >
-          <div className="flex items-start justify-between gap-3">
-            <div className="flex items-center gap-3">
+          <div className="flex items-start justify-between gap-2">
+            <div className="flex items-start sm:items-center gap-2.5 sm:gap-3 min-w-0">
               <div
-                className={`w-11 h-11 rounded-lg flex items-center justify-center shrink-0 ${
+                className={`w-10 h-10 sm:w-11 sm:h-11 rounded-lg flex items-center justify-center shrink-0 ${
                   activeBookType === 'KAS_UMUM'
-                    ? 'bg-emerald-600 text-white shadow-sm'
+                    ? 'bg-emerald-600 text-white shadow-xs'
                     : 'bg-emerald-100 text-emerald-800'
                 }`}
               >
-                <Wallet className="w-6 h-6" />
+                <Wallet className="w-5 h-5 sm:w-6 sm:h-6" />
               </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="text-base font-bold text-slate-900">Kas Umum</span>
-                  <span className="px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 text-[11px] font-medium">
+              <div className="min-w-0 flex-1">
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <span className="text-sm sm:text-base font-bold text-slate-900">Kas Umum</span>
+                  <span className="px-1.5 py-0.2 rounded-full bg-slate-100 text-slate-600 text-[10px] sm:text-[11px] font-medium">
                     Ledger 01
                   </span>
                   {activeBookType === 'KAS_UMUM' && (
-                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">
+                    <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold">
                       <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse" />
                       Aktif
                     </span>
                   )}
                 </div>
-                <p className="text-xs text-slate-500 mt-0.5">
+                <p className="text-[11px] sm:text-xs text-slate-500 mt-0.5 line-clamp-1 sm:line-clamp-none">
                   Iuran Wajib Warga, Sumbangan, & Operasional RT
                 </p>
               </div>
             </div>
             <ChevronRight
-              className={`w-5 h-5 transition-transform ${
+              className={`w-4 h-4 sm:w-5 sm:h-5 shrink-0 transition-transform ${
                 activeBookType === 'KAS_UMUM'
                   ? 'text-emerald-700 translate-x-1'
                   : 'text-slate-300'
@@ -246,11 +253,11 @@ export function DualCashSwitcher() {
             />
           </div>
 
-          <div className="mt-4 pt-3 border-t border-slate-200/80 flex items-center justify-between">
-            <span className="text-xs text-slate-500 font-medium">
+          <div className="mt-3 sm:mt-4 pt-2.5 sm:pt-3 border-t border-slate-200/80 flex items-center justify-between gap-2">
+            <span className="text-[11px] sm:text-xs text-slate-500 font-medium truncate">
               Posisi Saldo Real-time
             </span>
-            <div className="px-3 py-1 rounded-full bg-emerald-100/70 text-emerald-900 font-bold text-sm tabular-nums">
+            <div className="px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-emerald-100/70 text-emerald-900 font-bold text-xs sm:text-sm tabular-nums shrink-0">
               {formatRupiah(summary?.kasUmum?.balance || 0)}
             </div>
           </div>
@@ -261,45 +268,45 @@ export function DualCashSwitcher() {
           role="button"
           tabIndex={0}
           onClick={() => setActiveBookType('KAS_KEAMANAN')}
-          className={`p-5 rounded-xl border transition-all cursor-pointer relative shadow-sm ${
+          className={`p-3.5 sm:p-5 rounded-xl border transition-all cursor-pointer relative shadow-xs ${
             activeBookType === 'KAS_KEAMANAN'
-              ? 'border-2 border-blue-600 bg-blue-50/50 shadow-md ring-1 ring-blue-600'
+              ? 'border-2 border-blue-600 bg-blue-50/50 shadow-sm ring-1 ring-blue-600'
               : 'border-slate-200 bg-white hover:border-blue-300'
           }`}
         >
-          <div className="flex items-start justify-between gap-3">
-            <div className="flex items-center gap-3">
+          <div className="flex items-start justify-between gap-2">
+            <div className="flex items-start sm:items-center gap-2.5 sm:gap-3 min-w-0">
               <div
-                className={`w-11 h-11 rounded-lg flex items-center justify-center shrink-0 ${
+                className={`w-10 h-10 sm:w-11 sm:h-11 rounded-lg flex items-center justify-center shrink-0 ${
                   activeBookType === 'KAS_KEAMANAN'
-                    ? 'bg-blue-600 text-white shadow-sm'
+                    ? 'bg-blue-600 text-white shadow-xs'
                     : 'bg-blue-100 text-blue-800'
                 }`}
               >
-                <ShieldCheck className="w-6 h-6" />
+                <ShieldCheck className="w-5 h-5 sm:w-6 sm:h-6" />
               </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <span className="text-base font-bold text-slate-900">
+              <div className="min-w-0 flex-1">
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <span className="text-sm sm:text-base font-bold text-slate-900">
                     Kas Keamanan
                   </span>
-                  <span className="px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 text-[11px] font-medium">
+                  <span className="px-1.5 py-0.2 rounded-full bg-slate-100 text-slate-600 text-[10px] sm:text-[11px] font-medium">
                     Ledger 02
                   </span>
                   {activeBookType === 'KAS_KEAMANAN' && (
-                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 text-[10px] font-bold">
+                    <span className="inline-flex items-center gap-1 px-1.5 py-0.2 rounded-full bg-blue-100 text-blue-800 text-[10px] font-bold">
                       <span className="w-1.5 h-1.5 rounded-full bg-blue-600 animate-pulse" />
                       Aktif
                     </span>
                   )}
                 </div>
-                <p className="text-xs text-slate-500 mt-0.5">
+                <p className="text-[11px] sm:text-xs text-slate-500 mt-0.5 line-clamp-1 sm:line-clamp-none">
                   Iuran Keamanan Warga, Denda Ronda, & Honor Satpam
                 </p>
               </div>
             </div>
             <ChevronRight
-              className={`w-5 h-5 transition-transform ${
+              className={`w-4 h-4 sm:w-5 sm:h-5 shrink-0 transition-transform ${
                 activeBookType === 'KAS_KEAMANAN'
                   ? 'text-blue-700 translate-x-1'
                   : 'text-slate-300'
@@ -307,11 +314,11 @@ export function DualCashSwitcher() {
             />
           </div>
 
-          <div className="mt-4 pt-3 border-t border-slate-200/80 flex items-center justify-between">
-            <span className="text-xs text-slate-500 font-medium">
+          <div className="mt-3 sm:mt-4 pt-2.5 sm:pt-3 border-t border-slate-200/80 flex items-center justify-between gap-2">
+            <span className="text-[11px] sm:text-xs text-slate-500 font-medium truncate">
               Posisi Saldo Real-time
             </span>
-            <div className="px-3 py-1 rounded-full bg-blue-100/70 text-blue-900 font-bold text-sm tabular-nums">
+            <div className="px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-blue-100/70 text-blue-900 font-bold text-xs sm:text-sm tabular-nums shrink-0">
               {formatRupiah(summary?.kasKeamanan?.balance || 0)}
             </div>
           </div>
@@ -319,80 +326,80 @@ export function DualCashSwitcher() {
       </div>
 
       {/* 4 KPI Metrics Row */}
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3.5">
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-2.5 sm:gap-3.5">
         {/* 1. Saldo Awal */}
-        <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col justify-between">
-          <div className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
-            Saldo Awal Periode
+        <div className="p-3 sm:p-4 rounded-xl bg-white border border-slate-200 shadow-xs flex flex-col justify-between min-w-0">
+          <div className="text-[10px] sm:text-[11px] font-semibold text-slate-500 uppercase tracking-wider truncate">
+            Saldo Awal
           </div>
-          <div className="text-lg font-bold text-slate-900 tabular-nums my-1">
+          <div className="text-base sm:text-lg font-bold text-slate-900 tabular-nums my-0.5 sm:my-1 truncate">
             {formatRupiah(txData?.openingBalance || 0)}
           </div>
-          <div className="text-[11px] text-slate-400">
-            Per 01 {MONTHS[month - 1]} {year}
+          <div className="text-[10px] sm:text-[11px] text-slate-400 truncate">
+            01 {MONTHS[month - 1]} {year}
           </div>
         </div>
 
         {/* 2. Pemasukan Periode */}
-        <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col justify-between">
-          <div className="text-[11px] font-semibold text-emerald-700 uppercase tracking-wider flex items-center gap-1">
-            <ArrowUpRight className="w-3.5 h-3.5" />
-            Pemasukan ({MONTHS[month - 1]})
+        <div className="p-3 sm:p-4 rounded-xl bg-white border border-slate-200 shadow-xs flex flex-col justify-between min-w-0">
+          <div className="text-[10px] sm:text-[11px] font-semibold text-emerald-700 uppercase tracking-wider flex items-center gap-1 truncate">
+            <ArrowUpRight className="w-3.5 h-3.5 shrink-0" />
+            <span className="truncate">Pemasukan</span>
           </div>
-          <div className="text-lg font-bold text-emerald-700 tabular-nums my-1">
+          <div className="text-base sm:text-lg font-bold text-emerald-700 tabular-nums my-0.5 sm:my-1 truncate">
             {formatRupiah(txData?.periodIncome || 0)}
           </div>
-          <div className="text-[11px] text-slate-400">Total kas masuk</div>
+          <div className="text-[10px] sm:text-[11px] text-slate-400 truncate">Total kas masuk</div>
         </div>
 
         {/* 3. Pengeluaran Periode */}
-        <div className="p-4 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col justify-between">
-          <div className="text-[11px] font-semibold text-rose-700 uppercase tracking-wider flex items-center gap-1">
-            <ArrowDownLeft className="w-3.5 h-3.5" />
-            Pengeluaran ({MONTHS[month - 1]})
+        <div className="p-3 sm:p-4 rounded-xl bg-white border border-slate-200 shadow-xs flex flex-col justify-between min-w-0">
+          <div className="text-[10px] sm:text-[11px] font-semibold text-rose-700 uppercase tracking-wider flex items-center gap-1 truncate">
+            <ArrowDownLeft className="w-3.5 h-3.5 shrink-0" />
+            <span className="truncate">Pengeluaran</span>
           </div>
-          <div className="text-lg font-bold text-rose-700 tabular-nums my-1">
+          <div className="text-base sm:text-lg font-bold text-rose-700 tabular-nums my-0.5 sm:my-1 truncate">
             {formatRupiah(txData?.periodExpense || 0)}
           </div>
-          <div className="text-[11px] text-slate-400">Total kas keluar</div>
+          <div className="text-[10px] sm:text-[11px] text-slate-400 truncate">Total kas keluar</div>
         </div>
 
         {/* 4. Saldo Akhir */}
-        <div className="p-4 rounded-xl bg-slate-900 text-white shadow-sm flex flex-col justify-between">
-          <div className="text-[11px] font-semibold text-slate-300 uppercase tracking-wider">
-            Saldo Akhir Periode
+        <div className="p-3 sm:p-4 rounded-xl bg-slate-900 text-white shadow-xs flex flex-col justify-between min-w-0">
+          <div className="text-[10px] sm:text-[11px] font-semibold text-slate-300 uppercase tracking-wider truncate">
+            Saldo Akhir
           </div>
-          <div className="text-lg font-bold text-emerald-400 tabular-nums my-1">
+          <div className="text-base sm:text-lg font-bold text-emerald-400 tabular-nums my-0.5 sm:my-1 truncate">
             {formatRupiah(txData?.closingBalance || 0)}
           </div>
-          <div className="text-[11px] text-slate-400">
+          <div className="text-[10px] sm:text-[11px] text-slate-400 truncate">
             Posisi kas terhitung
           </div>
         </div>
       </div>
 
       {/* Filter and Table Container */}
-      <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+      <div className="bg-white border border-slate-200 rounded-xl shadow-xs overflow-hidden w-full max-w-full">
         {/* Table Controls */}
-        <div className="p-4 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div className="flex items-center gap-2">
+        <div className="p-3 sm:p-4 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3">
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
             <button
               type="button"
               onClick={() => setTypeFilter('ALL')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
                 typeFilter === 'ALL'
-                  ? 'bg-slate-900 text-white shadow-sm'
+                  ? 'bg-slate-900 text-white shadow-xs'
                   : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
               }`}
             >
-              Semua Transaksi
+              Semua
             </button>
             <button
               type="button"
               onClick={() => setTypeFilter('INCOME')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
                 typeFilter === 'INCOME'
-                  ? 'bg-emerald-600 text-white shadow-sm'
+                  ? 'bg-emerald-600 text-white shadow-xs'
                   : 'bg-emerald-50 text-emerald-700 hover:bg-emerald-100'
               }`}
             >
@@ -401,9 +408,9 @@ export function DualCashSwitcher() {
             <button
               type="button"
               onClick={() => setTypeFilter('EXPENSE')}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition-all ${
+              className={`px-3 py-1.5 rounded-lg text-xs font-semibold whitespace-nowrap transition-all ${
                 typeFilter === 'EXPENSE'
-                  ? 'bg-rose-600 text-white shadow-sm'
+                  ? 'bg-rose-600 text-white shadow-xs'
                   : 'bg-rose-50 text-rose-700 hover:bg-rose-100'
               }`}
             >
@@ -411,7 +418,7 @@ export function DualCashSwitcher() {
             </button>
           </div>
 
-          <div className="relative max-w-xs w-full">
+          <div className="relative w-full sm:max-w-xs">
             <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-2.5" />
             <input
               type="text"
@@ -423,8 +430,128 @@ export function DualCashSwitcher() {
           </div>
         </div>
 
-        {/* Transactions Table */}
-        <div className="overflow-x-auto">
+        {/* Mobile View: Transaction Cards (< md) */}
+        <div className="block md:hidden divide-y divide-slate-100">
+          {loading ? (
+            <div className="py-12 text-center text-xs text-slate-400">
+              Memuat data transaksi...
+            </div>
+          ) : filteredTransactions.length === 0 ? (
+            <div className="py-12 text-center text-xs text-slate-400 px-4">
+              Belum ada transaksi pada periode ini.
+            </div>
+          ) : (
+            filteredTransactions.map((tx: any) => {
+              const isVoided = tx.status === 'VOIDED'
+              const isExpense = tx.transactionType === 'EXPENSE'
+
+              return (
+                <div
+                  key={tx.id}
+                  className={`p-3.5 space-y-2.5 ${
+                    isVoided ? 'opacity-50 bg-slate-50/50' : 'bg-white'
+                  }`}
+                >
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="font-mono text-slate-500 text-[11px]">
+                      {tx.transactionDate}
+                    </span>
+                    <div className="flex items-center gap-1.5">
+                      <span className="px-2 py-0.5 rounded text-[10px] font-medium bg-slate-100 text-slate-700">
+                        {tx.categoryName || 'Lain-lain'}
+                      </span>
+                      <span
+                        className={`inline-flex items-center px-1.5 py-0.2 rounded-full text-[10px] font-semibold ${
+                          isVoided
+                            ? 'bg-rose-100 text-rose-800'
+                            : 'bg-emerald-100 text-emerald-800'
+                        }`}
+                      >
+                        {tx.status}
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0 flex-1">
+                      <p
+                        className={`text-xs font-medium leading-snug break-words ${
+                          isVoided ? 'line-through text-slate-400' : 'text-slate-800'
+                        }`}
+                      >
+                        {tx.description}
+                      </p>
+                      {tx.isLocked === 1 && (
+                        <span className="inline-flex items-center gap-0.5 px-1.5 py-0.2 mt-1 rounded text-[10px] font-semibold bg-amber-50 text-amber-700 border border-amber-200">
+                          <Lock className="w-2.5 h-2.5" />
+                          Auto Routing
+                        </span>
+                      )}
+                      {isVoided && tx.voidReason && (
+                        <p className="text-[10px] text-rose-600 italic mt-0.5">
+                          Dibatalkan: {tx.voidReason}
+                        </p>
+                      )}
+                    </div>
+                    <div className="text-right shrink-0">
+                      <span
+                        className={`font-bold tabular-nums text-sm ${
+                          isVoided
+                            ? 'line-through text-slate-400'
+                            : isExpense
+                            ? 'text-rose-600'
+                            : 'text-emerald-700'
+                        }`}
+                      >
+                        {isExpense ? '- ' : '+ '}
+                        {formatRupiah(tx.amount)}
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Actions Footer */}
+                  <div className="pt-2 border-t border-slate-100 flex items-center justify-between text-xs">
+                    <div>
+                      {tx.receiptFileKey ? (
+                        <button
+                          type="button"
+                          onClick={() => setViewReceiptKey(tx.receiptFileKey)}
+                          className="inline-flex items-center gap-1 text-[11px] text-teal-700 font-medium hover:underline"
+                        >
+                          <Eye className="w-3.5 h-3.5" />
+                          <span>Lihat Nota</span>
+                        </button>
+                      ) : (
+                        <span className="text-[11px] text-slate-400">Tanpa Nota</span>
+                      )}
+                    </div>
+
+                    <div>
+                      {tx.isLocked === 1 ? (
+                        <span className="text-[10px] text-slate-400 italic">
+                          Terkunci (Auto)
+                        </span>
+                      ) : !isVoided ? (
+                        <button
+                          type="button"
+                          onClick={() => setVoidingTx(tx)}
+                          className="text-[11px] text-rose-600 hover:text-rose-800 font-semibold"
+                        >
+                          Batalkan
+                        </button>
+                      ) : (
+                        <span className="text-slate-300 text-[10px]">Dibatalkan</span>
+                      )}
+                    </div>
+                  </div>
+                </div>
+              )
+            })
+          )}
+        </div>
+
+        {/* Desktop View: Transactions Table (>= md) */}
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-left text-xs">
             <thead className="bg-slate-50 border-b border-slate-200 text-slate-500 font-semibold uppercase tracking-wider text-[11px]">
               <tr>
