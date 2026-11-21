@@ -50,7 +50,7 @@ async function seed() {
   await db.insert(users).values([
     {
       id: adminId,
-      fullName: 'Administrator RT 04',
+      fullName: 'Administrator',
       username: 'admin',
       email: 'admin@rt04.local',
       passwordHash: passwordHashAdmin,
@@ -85,7 +85,7 @@ async function seed() {
     {
       id: kasUmumId,
       bookType: 'KAS_UMUM',
-      name: 'Buku Kas Umum RT 04',
+      name: 'Buku Kas Umum',
       bankName: 'BCA',
       accountNumber: '1234567890',
       isActive: 1,
@@ -93,7 +93,7 @@ async function seed() {
     {
       id: kasKeamananId,
       bookType: 'KAS_KEAMANAN',
-      name: 'Buku Kas Keamanan RT 04',
+      name: 'Buku Kas Keamanan',
       bankName: 'Mandiri',
       accountNumber: '0987654321',
       isActive: 1,
@@ -220,7 +220,7 @@ async function seed() {
       amount: rateWajib,
       effectiveFrom: '2026-01-01',
       isActive: 1,
-      changeReason: 'Tarif Awal Musyawarah RT 04 (Rp 5.000)',
+      changeReason: 'Tarif Awal Musyawarah Lingkungan (Rp 5.000)',
       createdBy: adminId,
     },
     {
@@ -229,7 +229,7 @@ async function seed() {
       amount: rateKeamanan,
       effectiveFrom: '2026-01-01',
       isActive: 1,
-      changeReason: 'Tarif Awal Musyawarah RT 04 (Rp 20.000)',
+      changeReason: 'Tarif Awal Musyawarah Lingkungan (Rp 20.000)',
       createdBy: adminId,
     },
     {

@@ -2,6 +2,7 @@ import { db } from '@/db'
 import { bills, billItems, cashBooks, cashTransactions } from '@/db/schema'
 import { eq, and, sql, gte, lte } from 'drizzle-orm'
 import { getCashBooksSummary, listTransactions } from './cash.service'
+import { getAppSettings } from './settings.service'
 import { formatRupiah } from '@/lib/utils'
 
 export interface MonthChartItem {
@@ -168,10 +169,13 @@ export async function getDashboardData(
   const totalBalance =
     cashSummary.kasUmum.balance + cashSummary.kasKeamanan.balance
 
+  const settings = await getAppSettings()
+  const communityName = settings.community_name || 'Kavling Palanji & Mutiara Indah'
+
   // 5. Generate formatted WA Report Text
   const periodLabel = `${MONTH_NAMES[month - 1]} ${year}`
   const waReportText = [
-    `📢 *LAPORAN KAS & KEUANGAN RT 04*`,
+    `📢 *LAPORAN KAS & KEUANGAN ${communityName.toUpperCase()}*`,
     `📅 *Periode: ${periodLabel}*`,
     ``,
     `━━━━━━━━━━━━━━━━━━━`,
@@ -189,7 +193,7 @@ export async function getDashboardData(
     `👉 *Saldo Akhir Kas Keamanan: ${formatRupiah(cashSummary.kasKeamanan.balance)}*`,
     ``,
     `━━━━━━━━━━━━━━━━━━━`,
-    `💰 *TOTAL KAS GABUNGAN RT: ${formatRupiah(totalBalance)}*`,
+    `💰 *TOTAL KAS GABUNGAN: ${formatRupiah(totalBalance)}*`,
     `📊 Kepatuhan Bayar: ${paidBills}/${totalBills} KK (${percentage}%)`,
     `⚠️ Sisa Tunggakan: ${formatRupiah(totalArrearsAmount)}`,
     ``,

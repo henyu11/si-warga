@@ -7,7 +7,6 @@ import {
   paymentAllocations,
   cashTransactions,
   auditLogs,
-  cashBooks,
 } from './schema'
 import { sql } from 'drizzle-orm'
 
@@ -24,9 +23,6 @@ async function cleanDemoData() {
   await db.delete(billItems).run()
   await db.delete(bills).run()
   await db.delete(households).run()
-
-  // Reset saldo buku kas menjadi 0
-  await db.update(cashBooks).set({ currentBalance: 0, openingBalance: 0 }).run()
 
   await db.run(sql`PRAGMA foreign_keys = ON`)
 

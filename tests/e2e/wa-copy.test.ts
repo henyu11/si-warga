@@ -13,7 +13,7 @@ describe('WhatsApp Billing Notification E2E Verification', () => {
     expect(firstItem.waLink).toContain('https://wa.me/')
 
     const groupRekap = buildRekapTunggakanText(arrears, 'Periode November 2026')
-    expect(groupRekap).toContain('REKAP TUNGGAKAN IURAN RT 04')
+    expect(groupRekap).toContain('REKAP TUNGGAKAN IURAN')
     expect(groupRekap).toContain(firstItem.headName)
     expect(groupRekap).toContain(firstItem.blockNumber)
   })

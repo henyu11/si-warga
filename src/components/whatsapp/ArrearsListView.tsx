@@ -24,6 +24,7 @@ import {
   DialogFooter,
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
+import { useAppSettings } from '@/components/layout/AppSettingsProvider'
 
 export interface ArrearItem {
   billId: string
@@ -51,6 +52,7 @@ const MONTHS = [
 ]
 
 export function ArrearsListView() {
+  const { communityName } = useAppSettings()
   const currentDate = new Date()
   const [mode, setMode] = useState<'period' | 'accumulated'>('period')
   const [year, setYear] = useState<number>(currentDate.getFullYear())
@@ -113,10 +115,10 @@ export function ArrearsListView() {
 
     // Hide nominal variant: only name & block
     const lines = [
-      `📢 *PENGUMUMAN REKAP IURAN RT 04*`,
+      `📢 *PENGUMUMAN REKAP IURAN ${communityName.toUpperCase()}*`,
       `📅 *${periodLabel}*`,
       ``,
-      `Yth. Bapak/Ibu Warga RT 04, berikut daftar warga yang belum menyelesaikan konfirmasi iuran:`,
+      `Yth. Bapak/Ibu Warga ${communityName}, berikut daftar warga yang belum menyelesaikan konfirmasi iuran:`,
       ``,
     ]
 

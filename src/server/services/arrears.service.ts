@@ -130,7 +130,7 @@ export async function listArrears(filters: {
     settings.rekening_kas_keamanan ? `Kas Keamanan: ${settings.rekening_kas_keamanan}` : '',
   ]
     .filter(Boolean)
-    .join(' | ') || 'Rekening Bendahara RT 04'
+    .join(' | ') || 'Rekening Bendahara'
 
   return filtered.map((b) => {
     const billItemsList = itemsByBill[b.id] || []
@@ -190,10 +190,11 @@ export async function listArrears(filters: {
   })
 }
 
-export function buildRekapTunggakanText(arrears: ArrearItem[], periodLabel: string): string {
+export function buildRekapTunggakanText(arrears: ArrearItem[], periodLabel: string, communityName?: string): string {
   const totalTunggakan = arrears.reduce((sum, a) => sum + a.totalRemaining, 0)
+  const headerTitle = communityName ? `REKAP TUNGGAKAN IURAN ${communityName.toUpperCase()}` : 'REKAP TUNGGAKAN IURAN'
 
-  let text = `*REKAP TUNGGAKAN IURAN RT 04 — ${periodLabel.toUpperCase()}*\n`
+  let text = `*${headerTitle} — ${periodLabel.toUpperCase()}*\n`
   text += `Total Warga Belum Lunas: *${arrears.length} KK*\n`
   text += `Total Tunggakan: *${formatRupiah(totalTunggakan)}*\n\n`
   text += `*Daftar Rincian:*\n`
@@ -202,6 +203,6 @@ export function buildRekapTunggakanText(arrears: ArrearItem[], periodLabel: stri
     text += `${idx + 1}. *${a.headName}* (${a.blockNumber}) — ${formatRupiah(a.totalRemaining)}\n`
   })
 
-  text += `\nMohon bagi warga yang belum melunasi dapat segera melakukan pembayaran ke rekening Kas RT atau tunai ke Bendahara.\nTerima kasih atas kerjasamanya.\n— _Pengurus RT 04_`
+  text += `\nMohon bagi warga yang belum melunasi dapat segera melakukan pembayaran ke rekening Kas atau tunai ke Bendahara.\nTerima kasih atas kerjasamanya.\n— _Pengurus ${communityName || 'Lingkungan'}_`
   return text
 }

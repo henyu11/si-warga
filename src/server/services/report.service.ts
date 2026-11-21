@@ -91,7 +91,8 @@ export async function generateCashCSV(
     year,
   })
 
-  const bookName = result.cashBook?.name || (bookType === 'KAS_UMUM' ? 'Kas Umum' : 'Kas Keamanan')
+  const rawBookName = result.cashBook?.name || (bookType === 'KAS_UMUM' ? 'Kas Umum' : 'Kas Keamanan')
+  const bookName = rawBookName.replace(/\s*RT\s*0?4/gi, '').trim()
   const periodLabel = month && year ? `${MONTH_NAMES[month - 1]} ${year}` : 'Semua Periode'
 
   const lines: string[] = []
@@ -193,7 +194,8 @@ export async function generateCashPDF(
     year,
   })
 
-  const bookName = result.cashBook?.name || (bookType === 'KAS_UMUM' ? 'Kas Umum' : 'Kas Keamanan')
+  const rawBookName = result.cashBook?.name || (bookType === 'KAS_UMUM' ? 'Kas Umum' : 'Kas Keamanan')
+  const bookName = rawBookName.replace(/\s*RT\s*0?4/gi, '').trim()
   const periodLabel = month && year ? `${MONTH_NAMES[month - 1]} ${year}` : 'Semua Periode'
 
   const headers = ['Tanggal', 'Jenis', 'Kategori', 'Keterangan', 'Nominal', 'Status']
@@ -257,7 +259,8 @@ export async function generateCashXLSX(
   const appName = settings.app_name || 'siWarga Palmut'
   const communityName = settings.community_name || 'Kavling Palanji & Mutiara Indah'
 
-  const bookName = result.cashBook?.name || (bookType === 'KAS_UMUM' ? 'Kas Umum' : 'Kas Keamanan')
+  const rawBookName = result.cashBook?.name || (bookType === 'KAS_UMUM' ? 'Kas Umum' : 'Kas Keamanan')
+  const bookName = rawBookName.replace(/\s*RT\s*0?4/gi, '').trim()
   const periodLabel = month && year ? `${MONTH_NAMES[month - 1]} ${year}` : 'Semua Periode'
 
   const workbook = new ExcelJS.Workbook()

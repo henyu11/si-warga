@@ -2,6 +2,7 @@ export const dynamic = 'force-dynamic'
 
 import { NextResponse } from 'next/server'
 import { getSessionUser } from '@/server/services/auth.service'
+import { getAppSettings } from '@/server/services/settings.service'
 import { listArrears, buildRekapTunggakanText } from '@/server/services/arrears.service'
 
 export async function GET(req: Request) {
@@ -23,8 +24,10 @@ export async function GET(req: Request) {
     search,
   })
 
+  const settings = await getAppSettings()
+  const communityName = settings.community_name || 'Kavling Palanji & Mutiara Indah'
   const periodLabel = mode === 'accumulated' ? 'Semua Akumulasi Tunggakan' : `Periode ${month}/${year}`
-  const rekapText = buildRekapTunggakanText(arrears, periodLabel)
+  const rekapText = buildRekapTunggakanText(arrears, periodLabel, communityName)
 
   return NextResponse.json({
     success: true,
