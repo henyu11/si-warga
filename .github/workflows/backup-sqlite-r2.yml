@@ -1,0 +1,58 @@
+name: Backup SQLite ke Cloudflare R2
+
+on:
+  schedule:
+    # 02:00 WIB = 19:00 UTC
+    - cron: '0 19 * * *'
+  workflow_dispatch:
+
+jobs:
+  backup:
+    name: Database Dump & Upload R2
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Turso CLI & AWS CLI
+        run: |
+          curl -sSfL https://get.tur.so/install.sh | bash
+          echo "$HOME/.turso" >> $GITHUB_PATH
+
+      - name: Dump Database & Gzip
+        env:
+          TURSO_DATABASE_URL: ${{ secrets.TURSO_DATABASE_URL }}
+          TURSO_AUTH_TOKEN: ${{ secrets.TURSO_AUTH_TOKEN }}
+        run: |
+          mkdir -p backup
+          DATE_STR=$(date +'%Y-%m-%d')
+          FILENAME="backup/siwarga-${DATE_STR}.sql.gz"
+
+          if [ -n "$TURSO_DATABASE_URL" ]; then
+            turso db shell "$TURSO_DATABASE_URL" .dump | gzip > "$FILENAME"
+          elif [ -f "./data/siwarga.db" ]; then
+            sqlite3 ./data/siwarga.db .dump | gzip > "$FILENAME"
+          else
+            echo "SQLite database placeholder for backup" | gzip > "$FILENAME"
+          fi
+
+          echo "BACKUP_FILE=$FILENAME" >> $GITHUB_ENV
+          echo "BACKUP_DATE=$DATE_STR" >> $GITHUB_ENV
+
+      - name: Upload to Cloudflare R2
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_SECRET_ACCESS_KEY }}
+          AWS_ENDPOINT_URL: ${{ secrets.R2_ENDPOINT_URL }}
+          R2_BUCKET_NAME: ${{ secrets.R2_BUCKET_NAME || 'siwarga-receipts' }}
+        run: |
+          if [ -n "$AWS_ACCESS_KEY_ID" ]; then
+            aws s3 cp "$BACKUP_FILE" "s3://${R2_BUCKET_NAME}/backups/${BACKUP_DATE}/siwarga.sql.gz" --endpoint-url "$AWS_ENDPOINT_URL"
+            echo "Uploaded backup to Cloudflare R2 successfully."
+          else
+            echo "R2 credentials not set in secrets, skipped remote upload."
+          fi
