@@ -8,6 +8,10 @@ export default defineConfig({
     environment: 'node',
     globals: true,
     fileParallelism: false,
+    env: {
+      DATABASE_URL: 'file:./data/siwarga_test.db',
+    },
+    setupFiles: ['./tests/setup.ts'],
   },
   resolve: {
     alias: {
