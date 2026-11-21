@@ -12,6 +12,7 @@ out/
 *.db-journal
 *.db-wal
 *.db-shm
+*.tsbuildinfo
 .superpowers/
 test-results/
 playwright-report/
