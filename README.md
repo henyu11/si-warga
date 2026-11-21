@@ -218,4 +218,4 @@ siWarga/
 
 ## 📄 Lisensi
 
-Hak Cipta © 2026 Pengurus RT 04 Komplek Melati. Dilisensikan di bawah lisensi MIT.
+Hak Cipta © 2026 Pengurus HenYud11. Dilisensikan di bawah lisensi MIT.
