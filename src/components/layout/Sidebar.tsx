@@ -17,6 +17,7 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useUser } from './RoleGuard'
+import { useAppSettings } from './AppSettingsProvider'
 import { Badge } from '@/components/ui/badge'
 import { toast } from 'sonner'
 
@@ -42,6 +43,7 @@ export function Sidebar() {
   const pathname = usePathname()
   const router = useRouter()
   const user = useUser()
+  const { appName, communityName } = useAppSettings()
 
   async function handleLogout() {
     try {
@@ -66,9 +68,9 @@ export function Sidebar() {
         <div className="w-10 h-10 rounded-xl bg-primary text-primary-foreground flex items-center justify-center font-bold">
           <ShieldCheck className="w-6 h-6" />
         </div>
-        <div className="flex flex-col">
-          <span className="font-bold text-base leading-tight text-foreground">siWarga Palmut</span>
-          <span className="text-xs text-muted-foreground truncate">Kavling Palanji &amp; Mutiara Indah</span>
+        <div className="flex flex-col min-w-0">
+          <span className="font-bold text-base leading-tight text-foreground truncate">{appName}</span>
+          <span className="text-xs text-muted-foreground truncate">{communityName}</span>
         </div>
       </div>
 

@@ -4,6 +4,7 @@ import { eq, and } from 'drizzle-orm'
 import { formatRupiah } from '@/lib/utils'
 import { createSimplePdf } from '@/lib/pdf'
 import { listTransactions } from './cash.service'
+import { getAppSettings } from './settings.service'
 import ExcelJS from 'exceljs'
 
 const MONTH_NAMES = [
@@ -159,9 +160,13 @@ export async function generateBillsPDF(month: number, year: number): Promise<Uin
     ])
   }
 
+  const settings = await getAppSettings()
+  const appName = settings.app_name || 'siWarga Palmut'
+  const communityName = settings.community_name || 'Kavling Palanji & Mutiara Indah'
+
   return createSimplePdf({
     title: `Laporan Tagihan Iuran Warga`,
-    subtitle: `Periode: Bulan ${month} Tahun ${year} • siWarga Palmut (Kavling Palanji & Mutiara Indah)`,
+    subtitle: `Periode: Bulan ${month} Tahun ${year} • ${appName} (${communityName})`,
     meta: [
       { label: 'Total Warga Ditagih', value: `${allBills.length} KK` },
       { label: 'Total Tagihan', value: formatRupiah(totalDueAll) },
@@ -169,10 +174,10 @@ export async function generateBillsPDF(month: number, year: number): Promise<Uin
     ],
     headers,
     rows,
-    footer: `Dokumen dicetak otomatis via siWarga Palmut pada ${new Date().toLocaleString('id-ID')}`,
+    footer: `Dokumen dicetak otomatis via ${appName} pada ${new Date().toLocaleString('id-ID')}`,
     signatures: [
-      { title: 'Mengetahui, Pengurus', name: '( ................................... )' },
-      { title: 'Bendahara', name: '( ................................... )' },
+      { title: `Mengetahui, Pengurus ${communityName}`, name: '( ................................... )' },
+      { title: `Bendahara ${communityName}`, name: '( ................................... )' },
     ],
   })
 }
@@ -209,9 +214,13 @@ export async function generateCashPDF(
     ])
   }
 
+  const settings = await getAppSettings()
+  const appName = settings.app_name || 'siWarga Palmut'
+  const communityName = settings.community_name || 'Kavling Palanji & Mutiara Indah'
+
   return createSimplePdf({
     title: `BUKU KAS: ${bookName.toUpperCase()}`,
-    subtitle: `Rekap Mutasi Transaksi Kavling Palanji & Mutiara Indah • Periode: ${periodLabel}`,
+    subtitle: `Rekap Mutasi Transaksi ${communityName} • Periode: ${periodLabel}`,
     meta: [
       { label: 'Bank', value: result.cashBook?.bankName || 'Kas Tunai' },
       { label: 'No Rekening', value: result.cashBook?.accountNumber || '-' },
@@ -225,10 +234,10 @@ export async function generateCashPDF(
     ],
     headers,
     rows,
-    footer: `Dokumen resmi pembukuan kas siWarga Palmut • Dicetak: ${new Date().toLocaleString('id-ID')}`,
+    footer: `Dokumen resmi pembukuan kas ${appName} • Dicetak: ${new Date().toLocaleString('id-ID')}`,
     signatures: [
-      { title: 'Mengetahui, Pengurus', name: '( ................................... )' },
-      { title: 'Bendahara', name: '( ................................... )' },
+      { title: `Mengetahui, Pengurus ${communityName}`, name: '( ................................... )' },
+      { title: `Bendahara ${communityName}`, name: '( ................................... )' },
     ],
   })
 }
@@ -244,11 +253,15 @@ export async function generateCashXLSX(
     year,
   })
 
+  const settings = await getAppSettings()
+  const appName = settings.app_name || 'siWarga Palmut'
+  const communityName = settings.community_name || 'Kavling Palanji & Mutiara Indah'
+
   const bookName = result.cashBook?.name || (bookType === 'KAS_UMUM' ? 'Kas Umum' : 'Kas Keamanan')
   const periodLabel = month && year ? `${MONTH_NAMES[month - 1]} ${year}` : 'Semua Periode'
 
   const workbook = new ExcelJS.Workbook()
-  workbook.creator = 'siWarga Palmut'
+  workbook.creator = appName
   workbook.created = new Date()
 
   const worksheet = workbook.addWorksheet(bookType === 'KAS_UMUM' ? 'Kas Umum' : 'Kas Keamanan', {
@@ -258,13 +271,13 @@ export async function generateCashXLSX(
   // 1. Header Kop
   worksheet.mergeCells('A1:H1')
   const titleCell = worksheet.getCell('A1')
-  titleCell.value = 'PEMBUKUAN KAS KEUANGAN KAVLING PALANJI & MUTIARA INDAH'
+  titleCell.value = `PEMBUKUAN KAS KEUANGAN ${communityName.toUpperCase()}`
   titleCell.font = { name: 'Calibri', size: 14, bold: true, color: { argb: 'FF0F766E' } }
   titleCell.alignment = { vertical: 'middle', horizontal: 'left' }
 
   worksheet.mergeCells('A2:H2')
   const subCell = worksheet.getCell('A2')
-  subCell.value = `${bookName} • Kavling Palanji & Mutiara Indah • Periode: ${periodLabel} • Dicetak: ${new Date().toLocaleString('id-ID')}`
+  subCell.value = `${bookName} • ${communityName} • Periode: ${periodLabel} • Dicetak: ${new Date().toLocaleString('id-ID')}`
   subCell.font = { name: 'Calibri', size: 10, italic: true, color: { argb: 'FF64748B' } }
   subCell.alignment = { vertical: 'middle', horizontal: 'left' }
 
@@ -439,11 +452,11 @@ export async function generateCashXLSX(
 
   worksheet.addRow([
     '',
-    'Pengurus Kavling Palanji & Mutiara Indah',
+    `Pengurus ${communityName}`,
     '',
     '',
     '',
-    'Bendahara Kavling Palanji & Mutiara Indah',
+    `Bendahara ${communityName}`,
     '',
     '',
   ])

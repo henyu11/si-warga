@@ -246,13 +246,23 @@ async function seed() {
   // 5. App Settings
   await db.insert(appSettings).values([
     {
+      key: 'app_name',
+      value: 'siWarga Palmut',
+      updatedBy: adminId,
+    },
+    {
+      key: 'community_name',
+      value: 'Kavling Palanji & Mutiara Indah',
+      updatedBy: adminId,
+    },
+    {
       key: 'rekening_kas_umum',
-      value: 'BCA 1234567890 a.n. Kas RT 04',
+      value: 'BCA 1234567890 a.n. Kas Palmut',
       updatedBy: adminId,
     },
     {
       key: 'rekening_kas_keamanan',
-      value: 'Mandiri 0987654321 a.n. Kas Keamanan RT 04',
+      value: 'Mandiri 0987654321 a.n. Kas Keamanan Palmut',
       updatedBy: adminId,
     },
     {

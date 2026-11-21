@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import { getSessionUser } from '@/server/services/auth.service'
+import { getAppSettings } from '@/server/services/settings.service'
 import { getDashboardData } from '@/server/services/dashboard.service'
 import { DualCashStatCards } from '@/components/dashboard/DualCashStatCards'
 import { PaymentRatioCard } from '@/components/dashboard/PaymentRatioCard'
@@ -25,6 +26,9 @@ export default async function DashboardPage() {
   const currentYear = now.getFullYear()
 
   const dashboardData = await getDashboardData(currentMonth, currentYear)
+  const settings = await getAppSettings()
+  const appName = settings.app_name || 'siWarga Palmut'
+  const communityName = settings.community_name || 'Kavling Palanji & Mutiara Indah'
   const periodLabel = `${MONTH_NAMES[currentMonth - 1]} ${currentYear}`
 
   return (
@@ -34,12 +38,15 @@ export default async function DashboardPage() {
         <div>
           <div className="flex items-center gap-2">
             <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
-              siWarga Palmut
+              {appName}
             </h1>
             <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">
               {user?.role || 'PENGURUS'}
             </span>
           </div>
+          <p className="text-xs font-medium text-teal-700 mt-0.5">
+            {communityName}
+          </p>
           <p className="text-xs sm:text-sm text-slate-500 mt-1">
             Selamat bertugas, <span className="font-semibold text-slate-700">{user?.fullName}</span>. Pantau keuangan lingkungan secara real-time.
           </p>

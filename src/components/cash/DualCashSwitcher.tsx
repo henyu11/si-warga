@@ -21,6 +21,7 @@ import { formatRupiah } from '@/lib/utils'
 import { CashTxModal } from './CashTxModal'
 import { ReceiptViewerModal } from './ReceiptViewerModal'
 import { ExportDropdown } from './ExportDropdown'
+import { useAppSettings } from '@/components/layout/AppSettingsProvider'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -38,6 +39,7 @@ const MONTHS = [
 ]
 
 export function DualCashSwitcher() {
+  const { communityName } = useAppSettings()
   const currentDate = new Date()
   const [activeBookType, setActiveBookType] = useState<'KAS_UMUM' | 'KAS_KEAMANAN'>('KAS_UMUM')
   const [year, setYear] = useState<number>(currentDate.getFullYear())
@@ -156,7 +158,7 @@ export function DualCashSwitcher() {
             </span>
           </div>
           <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
-            Pencatatan dual-ledger terpisah antara Kas Umum &amp; Kas Keamanan Kavling Palanji &amp; Mutiara Indah
+            Pencatatan dual-ledger terpisah antara Kas Umum &amp; Kas Keamanan {communityName}
           </p>
         </div>
 

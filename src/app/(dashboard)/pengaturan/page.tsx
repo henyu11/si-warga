@@ -9,15 +9,19 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import { useUser } from '@/components/layout/RoleGuard'
+import { useAppSettings } from '@/components/layout/AppSettingsProvider'
 import { toast } from 'sonner'
-import { Building2, MessageSquare, Save, History } from 'lucide-react'
+import { Building2, MessageSquare, Save, History, Sparkles } from 'lucide-react'
 
 export default function PengaturanPage() {
   const user = useUser()
   const canEdit = user?.role === 'ADMIN' || user?.role === 'BENDAHARA'
+  const { updateSettingsState } = useAppSettings()
 
   const [rates, setRates] = useState<any>(null)
   const [settings, setSettings] = useState<Record<string, string>>({})
+  const [appName, setAppName] = useState('')
+  const [communityName, setCommunityName] = useState('')
   const [dialogState, setDialogState] = useState<{
     open: boolean
     feeType: 'IURAN_WAJIB' | 'IURAN_KEAMANAN' | 'DENDA_RONDA'
@@ -48,6 +52,8 @@ export default function PengaturanPage() {
       const sJson = await s.json()
       if (sJson.success) {
         setSettings(sJson.data)
+        setAppName(sJson.data.app_name || 'siWarga Palmut')
+        setCommunityName(sJson.data.community_name || 'Kavling Palanji & Mutiara Indah')
         setRekeningUmum(sJson.data.rekening_kas_umum || '')
         setRekeningKeamanan(sJson.data.rekening_kas_keamanan || '')
         setTemplateWa(sJson.data.wa_billing_template || '')
@@ -81,20 +87,25 @@ export default function PengaturanPage() {
   async function handleSaveSettings(e: React.FormEvent) {
     e.preventDefault()
     setSavingSettings(true)
+    const payload = {
+      app_name: appName.trim() || 'siWarga Palmut',
+      community_name: communityName.trim() || 'Kavling Palanji & Mutiara Indah',
+      rekening_kas_umum: rekeningUmum,
+      rekening_kas_keamanan: rekeningKeamanan,
+      wa_billing_template: templateWa,
+    }
+
     try {
       const res = await fetch('/api/v1/settings', {
         method: 'PATCH',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          rekening_kas_umum: rekeningUmum,
-          rekening_kas_keamanan: rekeningKeamanan,
-          wa_billing_template: templateWa,
-        }),
+        body: JSON.stringify(payload),
       })
 
       const json = await res.json()
       if (res.ok && json.success) {
-        toast.success('Pengaturan rekening & template WA berhasil disimpan!')
+        updateSettingsState(payload)
+        toast.success('Pengaturan identitas aplikasi & operasional berhasil disimpan!')
       } else {
         toast.error(json.message || 'Gagal menyimpan pengaturan')
       }
@@ -174,8 +185,80 @@ export default function PengaturanPage() {
         />
       </div>
 
-      {/* Settings Form: Bank Accounts & WA Template */}
+      {/* Settings Form: App Identity, Bank Accounts & WA Template */}
       <form onSubmit={handleSaveSettings} className="space-y-6">
+        {/* Card Identitas Aplikasi & Wilayah */}
+        <Card className="border-teal-200/80 bg-gradient-to-br from-teal-50/40 via-white to-emerald-50/20 shadow-xs">
+          <CardHeader>
+            <div className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-lg bg-teal-100 text-teal-800 flex items-center justify-center shrink-0">
+                <Sparkles className="w-4 h-4" />
+              </div>
+              <div>
+                <CardTitle className="text-base font-semibold text-slate-900">
+                  Identitas Aplikasi &amp; Wilayah Kavling
+                </CardTitle>
+                <p className="text-xs text-muted-foreground mt-0.5">
+                  Ubah nama aplikasi dan kavling di sini. Pengaturan ini otomatis memperbarui seluruh header, menu navigasi, mobile view, dan dokumen laporan.
+                </p>
+              </div>
+            </div>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="space-y-1.5">
+                <Label htmlFor="app-name" className="text-xs font-semibold">Nama Aplikasi</Label>
+                <Input
+                  id="app-name"
+                  value={appName}
+                  onChange={(e) => setAppName(e.target.value)}
+                  placeholder="Contoh: siWarga Palmut"
+                  disabled={!canEdit}
+                  required
+                />
+                <p className="text-[11px] text-muted-foreground">
+                  Nama utama sistem yang tampil di sidebar &amp; navigasi atas.
+                </p>
+              </div>
+
+              <div className="space-y-1.5">
+                <Label htmlFor="community-name" className="text-xs font-semibold">Nama Wilayah / Kavling / RT</Label>
+                <Input
+                  id="community-name"
+                  value={communityName}
+                  onChange={(e) => setCommunityName(e.target.value)}
+                  placeholder="Contoh: Kavling Palanji &amp; Mutiara Indah"
+                  disabled={!canEdit}
+                  required
+                />
+                <p className="text-[11px] text-muted-foreground">
+                  Nama lingkungan perumahan/kavling yang tampil di sub-judul dan laporan.
+                </p>
+              </div>
+            </div>
+
+            {/* Live Preview Box */}
+            <div className="p-3 bg-white border border-teal-100 rounded-xl flex items-center justify-between text-xs shadow-xs">
+              <div className="flex items-center gap-2.5 min-w-0">
+                <div className="w-8 h-8 rounded-lg bg-teal-700 text-white flex items-center justify-center font-bold shrink-0 text-xs">
+                  ID
+                </div>
+                <div className="min-w-0">
+                  <div className="font-bold text-slate-800 truncate">
+                    {appName || 'Nama Aplikasi'}
+                  </div>
+                  <div className="text-[11px] text-slate-500 truncate">
+                    {communityName || 'Nama Kavling / Lingkungan'}
+                  </div>
+                </div>
+              </div>
+              <span className="text-[10px] font-semibold text-teal-800 bg-teal-100 px-2 py-0.5 rounded-full shrink-0">
+                Pratinjau Langsung
+              </span>
+            </div>
+          </CardContent>
+        </Card>
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Bank Accounts */}
           <Card>

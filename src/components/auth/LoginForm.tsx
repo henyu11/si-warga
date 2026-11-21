@@ -8,7 +8,15 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 
-export function LoginForm() {
+interface LoginFormProps {
+  appName?: string
+  communityName?: string
+}
+
+export function LoginForm({
+  appName = 'siWarga Palmut',
+  communityName = 'Kavling Palanji & Mutiara Indah',
+}: LoginFormProps) {
   const router = useRouter()
   const [identifier, setIdentifier] = useState('admin')
   const [password, setPassword] = useState('Admin123!')
@@ -62,11 +70,11 @@ export function LoginForm() {
         <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-primary/10 text-primary mb-3">
           <ShieldCheck className="w-8 h-8" />
         </div>
-        <h1 className="text-2xl font-bold tracking-tight text-foreground">
-          siWarga Palmut
+        <h1 className="text-2xl font-bold tracking-tight text-foreground truncate">
+          {appName}
         </h1>
-        <p className="text-sm text-muted-foreground mt-1">
-          Kavling Palanji &amp; Mutiara Indah
+        <p className="text-sm text-muted-foreground mt-1 truncate">
+          {communityName}
         </p>
       </div>
 

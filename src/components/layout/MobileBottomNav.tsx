@@ -19,6 +19,7 @@ import {
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { useUser } from './RoleGuard'
+import { useAppSettings } from './AppSettingsProvider'
 import {
   Sheet,
   SheetContent,
@@ -33,6 +34,7 @@ export function MobileBottomNav() {
   const pathname = usePathname()
   const router = useRouter()
   const user = useUser()
+  const { appName, communityName } = useAppSettings()
   const [sheetOpen, setSheetOpen] = useState(false)
 
   const isMenuPath =
@@ -199,12 +201,12 @@ export function MobileBottomNav() {
                   <div className="w-9 h-9 rounded-xl bg-primary text-primary-foreground flex items-center justify-center font-bold">
                     <ShieldCheck className="w-5 h-5" />
                   </div>
-                  <div>
-                    <SheetTitle className="text-base font-bold text-slate-900 leading-tight">
-                      siWarga Palmut
+                  <div className="min-w-0">
+                    <SheetTitle className="text-base font-bold text-slate-900 leading-tight truncate">
+                      {appName}
                     </SheetTitle>
-                    <p className="text-xs text-slate-500">
-                      Kavling Palanji &amp; Mutiara Indah
+                    <p className="text-xs text-slate-500 truncate">
+                      {communityName}
                     </p>
                   </div>
                 </div>

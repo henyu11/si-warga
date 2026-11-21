@@ -21,6 +21,7 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog'
 import { Button } from '@/components/ui/button'
+import { useAppSettings } from '@/components/layout/AppSettingsProvider'
 
 interface AuditLogItem {
   id: string
@@ -39,6 +40,7 @@ interface AuditLogItem {
 }
 
 export function AuditLogTable() {
+  const { communityName } = useAppSettings()
   const [logs, setLogs] = useState<AuditLogItem[]>([])
   const [loading, setLoading] = useState(true)
   const [moduleFilter, setModuleFilter] = useState('ALL')
@@ -114,7 +116,7 @@ export function AuditLogTable() {
             </span>
           </div>
           <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
-            Rekam jejak kepatuhan dan audit independen tata kelola kas lingkungan Kavling Palanji &amp; Mutiara Indah
+            Rekam jejak kepatuhan dan audit independen tata kelola kas lingkungan {communityName}
           </p>
         </div>
 

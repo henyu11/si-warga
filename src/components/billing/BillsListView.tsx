@@ -32,6 +32,7 @@ import { PaymentSheet } from './PaymentSheet'
 import { FineModal } from './FineModal'
 import { GenerateBillButton } from './GenerateBillButton'
 import { useUser } from '@/components/layout/RoleGuard'
+import { useAppSettings } from '@/components/layout/AppSettingsProvider'
 
 interface BillsListViewProps {
   initialBills: any[]
@@ -50,6 +51,7 @@ export function BillsListView({ initialBills }: BillsListViewProps) {
   const [activeBill, setActiveBill] = useState<any | null>(null)
 
   const user = useUser()
+  const { communityName } = useAppSettings()
   const canPay = user?.role === 'BENDAHARA'
   const canAddFine = user?.role === 'ADMIN' || user?.role === 'BENDAHARA'
   const canGenerate = user?.role === 'ADMIN' || user?.role === 'BENDAHARA'
@@ -104,7 +106,7 @@ export function BillsListView({ initialBills }: BillsListViewProps) {
             Tagihan Iuran Warga
           </h1>
           <p className="text-sm text-muted-foreground">
-            Rekap kewajiban iuran bulanan warga Kavling Palanji &amp; Mutiara Indah (Iuran Wajib, Keamanan, Denda Ronda).
+            Rekap kewajiban iuran bulanan warga {communityName} (Iuran Wajib, Keamanan, Denda Ronda).
           </p>
         </div>
 

@@ -167,11 +167,22 @@ export async function createFeeRate(
   }
 }
 
+export const DEFAULT_APP_SETTINGS: Record<string, string> = {
+  app_name: 'siWarga Palmut',
+  community_name: 'Kavling Palanji & Mutiara Indah',
+  rekening_kas_umum: 'BCA 1234567890 a.n. Kas Palmut',
+  rekening_kas_keamanan: 'Mandiri 0987654321 a.n. Kas Keamanan Palmut',
+  wa_billing_template:
+    'Yth. Bpk/Ibu *{nama}* (Blok {blok}),\nBerikut rincian tagihan iuran periode *{bulan_tahun}*:\n- Iuran Wajib: {iuran_wajib}\n- Iuran Keamanan: {iuran_keamanan}\n- Denda Ronda: {denda}\n*Total Tagihan: {total}*\n\nPembayaran dapat ditransfer ke {rekening} atau tunai ke Bendahara.\nTerima kasih atas partisipasinya.',
+}
+
 export async function getAppSettings(): Promise<Record<string, string>> {
   const records = await db.select().from(appSettings).all()
-  const map: Record<string, string> = {}
+  const map: Record<string, string> = { ...DEFAULT_APP_SETTINGS }
   for (const item of records) {
-    map[item.key] = item.value
+    if (item.value !== null && item.value !== undefined) {
+      map[item.key] = item.value
+    }
   }
   return map
 }

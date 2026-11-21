@@ -24,6 +24,7 @@ import { toast } from 'sonner'
 import type { households } from '@/db/schema'
 import { HouseholdFormSheet } from './HouseholdFormSheet'
 import { useUser } from '@/components/layout/RoleGuard'
+import { useAppSettings } from '@/components/layout/AppSettingsProvider'
 
 type Household = typeof households.$inferSelect
 
@@ -38,6 +39,7 @@ export function HouseholdTable({ initialHouseholds }: HouseholdTableProps) {
   const [sheetOpen, setSheetOpen] = useState(false)
   const [selectedHousehold, setSelectedHousehold] = useState<Household | null>(null)
   const user = useUser()
+  const { communityName } = useAppSettings()
   const canEdit = user?.role === 'ADMIN' || user?.role === 'BENDAHARA'
   const canDelete = user?.role === 'ADMIN'
 
@@ -105,7 +107,7 @@ export function HouseholdTable({ initialHouseholds }: HouseholdTableProps) {
             Data Warga &amp; Rumah
           </h1>
           <p className="text-sm text-muted-foreground">
-            Direktori Kepala Keluarga (KK), nomor WhatsApp, dan status hunian Kavling Palanji &amp; Mutiara Indah.
+            Direktori Kepala Keluarga (KK), nomor WhatsApp, dan status hunian {communityName}.
           </p>
         </div>
         {canEdit && (
