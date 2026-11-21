@@ -201,10 +201,10 @@ export function MobileBottomNav() {
                   </div>
                   <div>
                     <SheetTitle className="text-base font-bold text-slate-900 leading-tight">
-                      siWarga RT 04
+                      siWarga Palmut
                     </SheetTitle>
                     <p className="text-xs text-slate-500">
-                      RW 02 Komplek Griya Melati
+                      Kavling Palanji &amp; Mutiara Indah
                     </p>
                   </div>
                 </div>

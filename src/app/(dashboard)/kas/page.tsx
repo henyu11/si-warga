@@ -2,7 +2,7 @@ import React from 'react'
 import { DualCashSwitcher } from '@/components/cash/DualCashSwitcher'
 
 export const metadata = {
-  title: 'Buku Kas RT/RW | SiWarga RT 04',
+  title: 'Buku Kas | siWarga Palmut',
   description: 'Pencatatan dual-ledger terpisah antara Kas Umum & Kas Keamanan',
 }
 

@@ -156,7 +156,7 @@ export function DualCashSwitcher() {
             </span>
           </div>
           <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
-            Pencatatan dual-ledger terpisah antara Kas Umum & Kas Keamanan Komplek Melati
+            Pencatatan dual-ledger terpisah antara Kas Umum &amp; Kas Keamanan Kavling Palanji &amp; Mutiara Indah
           </p>
         </div>
 

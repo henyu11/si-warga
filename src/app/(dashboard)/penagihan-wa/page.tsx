@@ -2,8 +2,8 @@ import React from 'react'
 import { ArrearsListView } from '@/components/whatsapp/ArrearsListView'
 
 export const metadata = {
-  title: 'Penagihan WhatsApp | SiWarga RT 04',
-  description: 'Daftar penagihan iuran RT via WhatsApp',
+  title: 'Penagihan WhatsApp | siWarga Palmut',
+  description: 'Daftar penagihan iuran via WhatsApp Kavling Palanji & Mutiara Indah',
 }
 
 export default function PenagihanWaPage() {

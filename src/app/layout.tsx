@@ -3,8 +3,8 @@ import { Toaster } from "sonner";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "siWarga — Manajemen RT/RW",
-  description: "Aplikasi Manajemen Warga & Keuangan Dual-Kas RT/RW",
+  title: "siWarga Palmut — Kavling Palanji & Mutiara Indah",
+  description: "Aplikasi Manajemen Warga & Keuangan Dual-Kas Kavling Palanji & Mutiara Indah",
 };
 
 export default function RootLayout({

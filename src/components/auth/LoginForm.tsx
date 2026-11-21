@@ -63,10 +63,10 @@ export function LoginForm() {
           <ShieldCheck className="w-8 h-8" />
         </div>
         <h1 className="text-2xl font-bold tracking-tight text-foreground">
-          siWarga RT 04
+          siWarga Palmut
         </h1>
         <p className="text-sm text-muted-foreground mt-1">
-          Portal Administrasi &amp; Kas Warga Terintegrasi
+          Kavling Palanji &amp; Mutiara Indah
         </p>
       </div>
 

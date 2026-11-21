@@ -160,8 +160,8 @@ export async function generateBillsPDF(month: number, year: number): Promise<Uin
   }
 
   return createSimplePdf({
-    title: `Laporan Tagihan Iuran Warga RT 04`,
-    subtitle: `Periode: Bulan ${month} Tahun ${year} • SiWarga Komplek Melati`,
+    title: `Laporan Tagihan Iuran Warga`,
+    subtitle: `Periode: Bulan ${month} Tahun ${year} • siWarga Palmut (Kavling Palanji & Mutiara Indah)`,
     meta: [
       { label: 'Total Warga Ditagih', value: `${allBills.length} KK` },
       { label: 'Total Tagihan', value: formatRupiah(totalDueAll) },
@@ -169,10 +169,10 @@ export async function generateBillsPDF(month: number, year: number): Promise<Uin
     ],
     headers,
     rows,
-    footer: `Dokumen dicetak otomatis via SiWarga RT 04 pada ${new Date().toLocaleString('id-ID')}`,
+    footer: `Dokumen dicetak otomatis via siWarga Palmut pada ${new Date().toLocaleString('id-ID')}`,
     signatures: [
-      { title: 'Mengetahui, Ketua RT 04', name: '( ................................... )' },
-      { title: 'Bendahara RT 04', name: '( ................................... )' },
+      { title: 'Mengetahui, Pengurus', name: '( ................................... )' },
+      { title: 'Bendahara', name: '( ................................... )' },
     ],
   })
 }
@@ -211,7 +211,7 @@ export async function generateCashPDF(
 
   return createSimplePdf({
     title: `BUKU KAS: ${bookName.toUpperCase()}`,
-    subtitle: `Rekap Mutasi Transaksi RT 04 Komplek Melati • Periode: ${periodLabel}`,
+    subtitle: `Rekap Mutasi Transaksi Kavling Palanji & Mutiara Indah • Periode: ${periodLabel}`,
     meta: [
       { label: 'Bank', value: result.cashBook?.bankName || 'Kas Tunai' },
       { label: 'No Rekening', value: result.cashBook?.accountNumber || '-' },
@@ -225,10 +225,10 @@ export async function generateCashPDF(
     ],
     headers,
     rows,
-    footer: `Dokumen resmi pembukuan kas SiWarga RT 04 • Dicetak: ${new Date().toLocaleString('id-ID')}`,
+    footer: `Dokumen resmi pembukuan kas siWarga Palmut • Dicetak: ${new Date().toLocaleString('id-ID')}`,
     signatures: [
-      { title: 'Mengetahui, Ketua RT 04', name: '( ................................... )' },
-      { title: 'Bendahara RT 04', name: '( ................................... )' },
+      { title: 'Mengetahui, Pengurus', name: '( ................................... )' },
+      { title: 'Bendahara', name: '( ................................... )' },
     ],
   })
 }
@@ -248,7 +248,7 @@ export async function generateCashXLSX(
   const periodLabel = month && year ? `${MONTH_NAMES[month - 1]} ${year}` : 'Semua Periode'
 
   const workbook = new ExcelJS.Workbook()
-  workbook.creator = 'SiWarga RT 04'
+  workbook.creator = 'siWarga Palmut'
   workbook.created = new Date()
 
   const worksheet = workbook.addWorksheet(bookType === 'KAS_UMUM' ? 'Kas Umum' : 'Kas Keamanan', {
@@ -258,13 +258,13 @@ export async function generateCashXLSX(
   // 1. Header Kop
   worksheet.mergeCells('A1:H1')
   const titleCell = worksheet.getCell('A1')
-  titleCell.value = 'PEMBUKUAN KAS KEUANGAN RT 04 RW 02 KOMPLEK MELATI'
+  titleCell.value = 'PEMBUKUAN KAS KEUANGAN KAVLING PALANJI & MUTIARA INDAH'
   titleCell.font = { name: 'Calibri', size: 14, bold: true, color: { argb: 'FF0F766E' } }
   titleCell.alignment = { vertical: 'middle', horizontal: 'left' }
 
   worksheet.mergeCells('A2:H2')
   const subCell = worksheet.getCell('A2')
-  subCell.value = `${bookName} • Periode: ${periodLabel} • Dicetak: ${new Date().toLocaleString('id-ID')}`
+  subCell.value = `${bookName} • Kavling Palanji & Mutiara Indah • Periode: ${periodLabel} • Dicetak: ${new Date().toLocaleString('id-ID')}`
   subCell.font = { name: 'Calibri', size: 10, italic: true, color: { argb: 'FF64748B' } }
   subCell.alignment = { vertical: 'middle', horizontal: 'left' }
 
@@ -439,11 +439,11 @@ export async function generateCashXLSX(
 
   worksheet.addRow([
     '',
-    'Ketua RT 04 Komplek Melati',
+    'Pengurus Kavling Palanji & Mutiara Indah',
     '',
     '',
     '',
-    'Bendahara RT 04 Komplek Melati',
+    'Bendahara Kavling Palanji & Mutiara Indah',
     '',
     '',
   ])

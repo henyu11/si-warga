@@ -9,8 +9,8 @@ import { CopyReportButton } from '@/components/dashboard/CopyReportButton'
 import { Download, Calendar, ShieldCheck, ChevronRight } from 'lucide-react'
 
 export const metadata = {
-  title: 'Beranda | SiWarga RT 04 Melati',
-  description: 'Dashboard Keuangan & Manajemen Lingkungan RT 04',
+  title: 'Beranda | siWarga Palmut',
+  description: 'Dashboard Keuangan & Manajemen Kavling Palanji & Mutiara Indah',
 }
 
 const MONTH_NAMES = [
@@ -34,7 +34,7 @@ export default async function DashboardPage() {
         <div>
           <div className="flex items-center gap-2">
             <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
-              RT 04 Komplek Melati
+              siWarga Palmut
             </h1>
             <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-100 text-emerald-800">
               {user?.role || 'PENGURUS'}

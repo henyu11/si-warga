@@ -193,7 +193,7 @@ export async function getDashboardData(
     `📊 Kepatuhan Bayar: ${paidBills}/${totalBills} KK (${percentage}%)`,
     `⚠️ Sisa Tunggakan: ${formatRupiah(totalArrearsAmount)}`,
     ``,
-    `_Laporan resmi dibuat otomatis via SiWarga RT 04 Komplek Melati._ 🙏`,
+    `_Laporan resmi dibuat otomatis via siWarga Palmut (Kavling Palanji & Mutiara Indah)._ 🙏`,
   ].join('\n')
 
   return {

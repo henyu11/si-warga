@@ -67,8 +67,8 @@ export function Sidebar() {
           <ShieldCheck className="w-6 h-6" />
         </div>
         <div className="flex flex-col">
-          <span className="font-bold text-base leading-tight text-foreground">siWarga RT 04</span>
-          <span className="text-xs text-muted-foreground">RW 02 Komplek Griya</span>
+          <span className="font-bold text-base leading-tight text-foreground">siWarga Palmut</span>
+          <span className="text-xs text-muted-foreground truncate">Kavling Palanji &amp; Mutiara Indah</span>
         </div>
       </div>
 

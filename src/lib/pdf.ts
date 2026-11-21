@@ -174,7 +174,7 @@ export function createSimplePdf(doc: SimplePdfDocument): Uint8Array {
     lines.push(`0.8 0.8 0.8 RG 0.5 w`)
     lines.push(`${MARGIN_X} ${footerY + 12} m ${MARGIN_X + CONTENT_WIDTH} ${footerY + 12} l S`)
 
-    const footerText = doc.footer || `Dokumen resmi pembukuan kas SiWarga RT 04 • ${new Date().toLocaleDateString('id-ID')}`
+    const footerText = doc.footer || `Dokumen resmi pembukuan kas siWarga Palmut • ${new Date().toLocaleDateString('id-ID')}`
     lines.push(`0.3 0.3 0.3 rg`)
     lines.push(`BT /F1 7.5 Tf ${MARGIN_X} ${footerY} Td (${escapePdf(footerText)}) Tj ET`)
 

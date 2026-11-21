@@ -114,7 +114,7 @@ export function AuditLogTable() {
             </span>
           </div>
           <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
-            Rekam jejak kepatuhan dan audit independen tata kelola kas lingkungan RT 04 Melati
+            Rekam jejak kepatuhan dan audit independen tata kelola kas lingkungan Kavling Palanji &amp; Mutiara Indah
           </p>
         </div>
 

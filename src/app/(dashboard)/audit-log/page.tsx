@@ -2,8 +2,8 @@ import React from 'react'
 import { AuditLogTable } from '@/components/audit/AuditLogTable'
 
 export const metadata = {
-  title: 'Audit Trail | SiWarga RT 04',
-  description: 'Log audit permanen dan rekam jejak keuangan RT 04',
+  title: 'Audit Trail | siWarga Palmut',
+  description: 'Log audit permanen dan rekam jejak keuangan Kavling Palanji & Mutiara Indah',
 }
 
 export default function AuditLogPage() {
