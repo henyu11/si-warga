@@ -1,0 +1,268 @@
+'use client'
+
+import React, { useState, useEffect } from 'react'
+import { FeeRateCard } from '@/components/settings/FeeRateCard'
+import { FeeRateChangeDialog } from '@/components/settings/FeeRateChangeDialog'
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
+import { useUser } from '@/components/layout/RoleGuard'
+import { toast } from 'sonner'
+import { Building2, MessageSquare, Save, History } from 'lucide-react'
+
+export default function PengaturanPage() {
+  const user = useUser()
+  const canEdit = user?.role === 'ADMIN' || user?.role === 'BENDAHARA'
+
+  const [rates, setRates] = useState<any>(null)
+  const [settings, setSettings] = useState<Record<string, string>>({})
+  const [dialogState, setDialogState] = useState<{
+    open: boolean
+    feeType: 'IURAN_WAJIB' | 'IURAN_KEAMANAN' | 'DENDA_RONDA'
+    currentAmount: number
+    title: string
+  }>({
+    open: false,
+    feeType: 'IURAN_WAJIB',
+    currentAmount: 50000,
+    title: 'Iuran Wajib',
+  })
+
+  const [rekeningUmum, setRekeningUmum] = useState('')
+  const [rekeningKeamanan, setRekeningKeamanan] = useState('')
+  const [templateWa, setTemplateWa] = useState('')
+  const [savingSettings, setSavingSettings] = useState(false)
+
+  async function loadData() {
+    try {
+      const [rateRes, setRes] = useStateawait()
+      // fetch rates
+      const r = await fetch('/api/v1/fee-rates')
+      const rJson = await r.json()
+      if (rJson.success) setRates(rJson.data)
+
+      // fetch settings
+      const s = await fetch('/api/v1/settings')
+      const sJson = await s.json()
+      if (sJson.success) {
+        setSettings(sJson.data)
+        setRekeningUmum(sJson.data.rekening_kas_umum || '')
+        setRekeningKeamanan(sJson.data.rekening_kas_keamanan || '')
+        setTemplateWa(sJson.data.wa_billing_template || '')
+      }
+    } catch {
+      toast.error('Gagal memuat pengaturan')
+    }
+  }
+
+  function useStateawait() {
+    return [null, null]
+  }
+
+  useEffect(() => {
+    loadData()
+  }, [])
+
+  function openEdit(
+    feeType: 'IURAN_WAJIB' | 'IURAN_KEAMANAN' | 'DENDA_RONDA',
+    currentAmount: number,
+    title: string
+  ) {
+    setDialogState({
+      open: true,
+      feeType,
+      currentAmount,
+      title,
+    })
+  }
+
+  async function handleSaveSettings(e: React.FormEvent) {
+    e.preventDefault()
+    setSavingSettings(true)
+    try {
+      const res = await fetch('/api/v1/settings', {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          rekening_kas_umum: rekeningUmum,
+          rekening_kas_keamanan: rekeningKeamanan,
+          wa_billing_template: templateWa,
+        }),
+      })
+
+      const json = await res.json()
+      if (res.ok && json.success) {
+        toast.success('Pengaturan rekening & template WA berhasil disimpan!')
+      } else {
+        toast.error(json.message || 'Gagal menyimpan pengaturan')
+      }
+    } catch {
+      toast.error('Terjadi kesalahan')
+    } finally {
+      setSavingSettings(false)
+    }
+  }
+
+  return (
+    <div className="p-4 md:p-8 max-w-7xl mx-auto w-full space-y-6">
+      {/* Header */}
+      <div>
+        <h1 className="text-2xl font-bold tracking-tight text-foreground">
+          Pengaturan Tarif &amp; Operasional RT
+        </h1>
+        <p className="text-sm text-muted-foreground">
+          Kelola besaran iuran dinamis, denda ronda, rekening penampung, dan template pesan WhatsApp.
+        </p>
+      </div>
+
+      {/* 3 Tariff Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <FeeRateCard
+          title="Iuran Wajib Warga"
+          feeType="IURAN_WAJIB"
+          amount={rates?.IURAN_WAJIB?.amount || 50000}
+          targetKas="Masuk: Buku Kas Umum"
+          targetKasType="kasUmum"
+          description="Iuran operasional bulanan: kebersihan, sampah, fasilitas umum, dan kegiatan sosial."
+          effectiveFrom={rates?.IURAN_WAJIB?.effectiveFrom || '2026-01-01'}
+          onEdit={() =>
+            openEdit(
+              'IURAN_WAJIB',
+              rates?.IURAN_WAJIB?.amount || 50000,
+              'Iuran Wajib Warga'
+            )
+          }
+          canEdit={canEdit}
+        />
+
+        <FeeRateCard
+          title="Iuran Keamanan Warga"
+          feeType="IURAN_KEAMANAN"
+          amount={rates?.IURAN_KEAMANAN?.amount || 40000}
+          targetKas="Masuk: Buku Kas Keamanan"
+          targetKasType="kasKeamanan"
+          description="Iuran pos keamanan: honor gaji satpam, pemeliharaan portal, dan peralatan CCTV."
+          effectiveFrom={rates?.IURAN_KEAMANAN?.effectiveFrom || '2026-01-01'}
+          onEdit={() =>
+            openEdit(
+              'IURAN_KEAMANAN',
+              rates?.IURAN_KEAMANAN?.amount || 40000,
+              'Iuran Keamanan Warga'
+            )
+          }
+          canEdit={canEdit}
+        />
+
+        <FeeRateCard
+          title="Denda Ronda Absen"
+          feeType="DENDA_RONDA"
+          amount={rates?.DENDA_RONDA?.amount || 25000}
+          targetKas="Masuk: Buku Kas Keamanan"
+          targetKasType="kasKeamanan"
+          description="Denda bagi warga yang berhalangan hadir jadwal ronda malam tanpa pengganti."
+          effectiveFrom={rates?.DENDA_RONDA?.effectiveFrom || '2026-01-01'}
+          onEdit={() =>
+            openEdit(
+              'DENDA_RONDA',
+              rates?.DENDA_RONDA?.amount || 25000,
+              'Denda Ronda Absen'
+            )
+          }
+          canEdit={canEdit}
+        />
+      </div>
+
+      {/* Settings Form: Bank Accounts & WA Template */}
+      <form onSubmit={handleSaveSettings} className="space-y-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {/* Bank Accounts */}
+          <Card>
+            <CardHeader>
+              <div className="flex items-center gap-2">
+                <Building2 className="w-5 h-5 text-primary" />
+                <CardTitle className="text-base font-semibold">
+                  Nomor Rekening Kas Penampung
+                </CardTitle>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-4">
+              <div className="space-y-1.5">
+                <Label htmlFor="rek-umum">Rekening Kas Umum (Iuran Wajib)</Label>
+                <Input
+                  id="rek-umum"
+                  value={rekeningUmum}
+                  onChange={(e) => setRekeningUmum(e.target.value)}
+                  placeholder="Contoh: BCA 1234567890 a.n. Kas RT 04"
+                  disabled={!canEdit}
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <Label htmlFor="rek-keamanan">Rekening Kas Keamanan (Iuran &amp; Denda)</Label>
+                <Input
+                  id="rek-keamanan"
+                  value={rekeningKeamanan}
+                  onChange={(e) => setRekeningKeamanan(e.target.value)}
+                  placeholder="Contoh: Mandiri 0987654321 a.n. Kas Keamanan RT 04"
+                  disabled={!canEdit}
+                />
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* WhatsApp Template */}
+          <Card>
+            <CardHeader>
+              <div className="flex items-center gap-2">
+                <MessageSquare className="w-5 h-5 text-wa-green" />
+                <CardTitle className="text-base font-semibold">
+                  Template Pesan Penagihan WhatsApp
+                </CardTitle>
+              </div>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <div className="space-y-1.5">
+                <Label htmlFor="wa-tmpl">Format Teks WhatsApp</Label>
+                <Textarea
+                  id="wa-tmpl"
+                  rows={5}
+                  value={templateWa}
+                  onChange={(e) => setTemplateWa(e.target.value)}
+                  placeholder="Format pesan tagihan..."
+                  disabled={!canEdit}
+                />
+              </div>
+              <p className="text-[11px] text-muted-foreground leading-relaxed">
+                Variabel otomatis: <code>{'{nama}'}</code>, <code>{'{blok}'}</code>,{' '}
+                <code>{'{bulan_tahun}'}</code>, <code>{'{iuran_wajib}'}</code>,{' '}
+                <code>{'{iuran_keamanan}'}</code>, <code>{'{denda}'}</code>,{' '}
+                <code>{'{total}'}</code>, <code>{'{rekening}'}</code>.
+              </p>
+            </CardContent>
+          </Card>
+        </div>
+
+        {canEdit && (
+          <div className="flex justify-end">
+            <Button type="submit" disabled={savingSettings} className="gap-2">
+              <Save className="w-4 h-4" />
+              <span>{savingSettings ? 'Menyimpan...' : 'Simpan Rekening & Template'}</span>
+            </Button>
+          </div>
+        )}
+      </form>
+
+      {/* Dialog Change Tariff */}
+      <FeeRateChangeDialog
+        open={dialogState.open}
+        onOpenChange={(open) => setDialogState((prev) => ({ ...prev, open }))}
+        feeType={dialogState.feeType}
+        currentAmount={dialogState.currentAmount}
+        title={dialogState.title}
+        onSuccess={loadData}
+      />
+    </div>
+  )
+}
