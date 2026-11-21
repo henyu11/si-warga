@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { NextResponse } from 'next/server'
 import { getSessionUser } from '@/server/services/auth.service'
 import { updateManualTransaction } from '@/server/services/cash.service'

@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { NextResponse } from 'next/server'
 import { z } from 'zod'
 import { loginUser, SESSION_COOKIE_NAME } from '@/server/services/auth.service'

@@ -1,4 +1,6 @@
 import { redirect } from 'next/navigation'
+
+export const dynamic = 'force-dynamic'
 import { getSessionUser } from '@/server/services/auth.service'
 import { getAppSettings } from '@/server/services/settings.service'
 import { Sidebar } from '@/components/layout/Sidebar'
