@@ -20,6 +20,7 @@ import {
 import { formatRupiah } from '@/lib/utils'
 import { CashTxModal } from './CashTxModal'
 import { ReceiptViewerModal } from './ReceiptViewerModal'
+import { ExportDropdown } from './ExportDropdown'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -191,6 +192,12 @@ export function DualCashSwitcher() {
               </select>
             </div>
           </div>
+
+          <ExportDropdown
+            bookType={activeBookType}
+            month={month}
+            year={year}
+          />
 
           <Button
             onClick={() => setIsTxModalOpen(true)}
