@@ -89,8 +89,7 @@ export function MobileBottomNav() {
       await fetch('/api/v1/auth/logout', { method: 'POST' })
       toast.success('Berhasil keluar.')
       setSheetOpen(false)
-      router.push('/login')
-      router.refresh()
+      window.location.href = '/login'
     } catch {
       toast.error('Gagal logout.')
     }

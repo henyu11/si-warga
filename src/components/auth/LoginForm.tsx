@@ -38,8 +38,8 @@ export function LoginForm() {
       }
 
       toast.success('Login berhasil! Mengalihkan ke dashboard...')
-      router.push('/')
-      router.refresh()
+      // Full document redirect ensures cookies and layout state are cleanly synced across all networks
+      window.location.href = '/'
     } catch {
       toast.error('Terjadi kesalahan jaringan atau server.')
     } finally {

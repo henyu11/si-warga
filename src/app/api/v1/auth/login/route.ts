@@ -77,6 +77,11 @@ export async function POST(req: Request) {
 
     clearRateLimit(identifier)
 
+    const isHttps =
+      req.headers.get('x-forwarded-proto') === 'https' ||
+      req.url.startsWith('https://')
+    const isSecure = process.env.NODE_ENV === 'production' && isHttps
+
     const response = NextResponse.json({
       success: true,
       message: 'Login berhasil.',
@@ -89,7 +94,7 @@ export async function POST(req: Request) {
       name: SESSION_COOKIE_NAME,
       value: result.token,
       httpOnly: true,
-      secure: process.env.NODE_ENV === 'production',
+      secure: isSecure,
       sameSite: 'lax',
       path: '/',
       maxAge: 86400, // 24 hours
